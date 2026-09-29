@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How AI Became Normal | Human Artifact</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f1e8;
+      color: #202124;
+      line-height: 1.6;
+    }
+
+    .page {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 40px 0 70px;
+    }
+
+    .hero {
+      background: #202124;
+      color: #fff;
+      border-radius: 28px;
+      padding: 48px 42px;
+      margin-bottom: 28px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.12);
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .78rem;
+      font-weight: 700;
+      opacity: .7;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      line-height: .95;
+      margin: 0 0 18px;
+      letter-spacing: -3px;
+    }
+
+    .hero p {
+      max-width: 720px;
+      font-size: 1.1rem;
+      margin: 0;
+      color: #e6e6e6;
+    }
+
+    .question {
+      margin-top: 25px;
+      padding: 18px 20px;
+      border-left: 4px solid #fff;
+      background: rgba(255,255,255,.08);
+      border-radius: 0 12px 12px 0;
+      font-weight: 600;
+    }
+
+    .progress-wrap {
+      margin: 25px 0 15px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .82rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .progress {
+      height: 10px;
+      background: #ddd8ce;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 16.6667%;
+      background: #202124;
+      border-radius: 99px;
+      transition: width .45s ease;
+    }
+
+    .step-card {
+      background: #fff;
+      border-radius: 28px;
+      padding: clamp(28px, 5vw, 55px);
+      min-height: 500px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.09);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-number {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 900;
+      color: #e9e4da;
+      line-height: .8;
+      position: absolute;
+      top: 30px;
+      right: 35px;
+      user-select: none;
+    }
+
+    .concept {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 99px;
+      background: #eee9df;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .step-card h2 {
+      font-size: clamp(2.3rem, 6vw, 4.8rem);
+      line-height: .95;
+      letter-spacing: -2px;
+      margin: 0 0 22px;
+      max-width: 700px;
+    }
+
+    .step-card .lead {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .example {
+      background: #f5f1e8;
+      border-radius: 18px;
+      padding: 22px;
+      max-width: 780px;
+      margin: 25px 0;
+    }
+
+    .example strong {
+      display: block;
+      text-transform: uppercase;
+      font-size: .75rem;
+      letter-spacing: 1.2px;
+      margin-bottom: 7px;
+    }
+
+    .question-box {
+      background: #202124;
+      color: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      max-width: 780px;
+      margin-top: 25px;
+    }
+
+    .question-box strong {
+      display: block;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+      opacity: .7;
+    }
+
+    .stat {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 10px;
+      margin: 10px 10px 10px 0;
+      padding: 14px 17px;
+      border: 2px solid #ddd8ce;
+      border-radius: 15px;
+      background: #fff;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .stat-label {
+      font-size: .88rem;
+      color: #555;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 22px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      border-radius: 14px;
+      padding: 15px 24px;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #prevBtn {
+      background: #ddd8ce;
+      color: #202124;
+    }
+
+    #nextBtn {
+      background: #202124;
+      color: #fff;
+      margin-left: auto;
+    }
+
+    button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .reflection {
+      margin-top: 28px;
+      background: #fff;
+      border-radius: 28px;
+      padding: 35px;
+      box-shadow: 0 15px 35px rgba(0,0,0,.07);
+    }
+
+    .reflection h2 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    .reflection p {
+      max-width: 850px;
+    }
+
+    .source-list {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd8ce;
+      font-size: .9rem;
+    }
+
+    .source-list a {
+      color: #202124;
+      font-weight: 700;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: .8rem;
+      color: #777;
+      margin-top: 28px;
+    }
+
+    .fade {
+      animation: fadeIn .4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .page {
+        width: 94%;
+        padding-top: 20px;
+      }
+
+      .hero {
+        padding: 32px 25px;
+        border-radius: 22px;
+      }
+
+      .step-card {
+        border-radius: 22px;
+        min-height: 560px;
+      }
+
+      .step-number {
+        top: 25px;
+        right: 20px;
+        font-size: 5rem;
+      }
+
+      .controls button {
+        padding: 13px 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <section class="hero">
+      <div class="eyebrow">Human Artifact • Interactive Infographic</div>
+
+      <h1>How AI Became Normal</h1>
+
+      <p>
+        Technologies do not become part of everyday life all at once.
+        They spread because they become useful, accessible, convenient,
+        and increasingly difficult to imagine life without.
+      </p>
+
+      <div class="question">
+        <strong>Question:</strong>
+        What happens when a technology stops feeling like technology
+        and starts feeling like an ordinary part of life?
+      </div>
+    </section>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="stageLabel">Stage 1 of 6</span>
+        <span id="stageConcept">Proliferation</span>
+      </div>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <section class="step-card" id="stepCard">
+      <div class="step-number" id="stepNumber">01</div>
+      <div id="stepContent"></div>
+    </section>
+
+    <div class="controls">
+      <button id="prevBtn" onclick="changeStep(-1)">← Previous</button>
+      <button id="nextBtn" onclick="changeStep(1)">Next →</button>
+    </div>
+
+    <section class="reflection">
+      <h2>The Bigger Question</h2>
+
+      <p>
+        The spread of AI raises a question that goes beyond whether the
+        technology is useful. As technologies become naturalized, people
+        can change their habits, expectations, and relationships around them.
+      </p>
+
+      <p>
+        This is the idea of <strong>co-constitution</strong>: humans shape
+        technology, but technology can also shape human behavior and the
+        environments in which we live.
+      </p>
+
+      <div class="question-box">
+        <strong>Think about it</strong>
+        If AI becomes easier, faster, and more useful every year,
+        where should humans draw the line between using a tool and
+        depending on it?
+      </div>
+
+      <div class="source-list">
+        <strong>Sources & further reading</strong>
+        <ul>
+          <li>
+            Pew Research Center, 2026 —
+            <a href="https://www.pewresearch.org/internet/2026/06/17/what-do-americans-think-ai-is/"
+               target="_blank" rel="noopener">
+              What do Americans think AI is?
+            </a>
+          </li>
+          <li>
+            Pew Research Center, 2025 —
+            <a href="https://www.pewresearch.org/science/2025/09/17/ai-in-americans-lives-awareness-experiences-and-attitudes/"
+               target="_blank" rel="noopener">
+              AI in Americans' lives: Awareness, experiences and attitudes
+            </a>
+          </li>
+          <li>
+            Pew Research Center, 2025 —
+            <a href="https://www.pewresearch.org/science/2025/09/17/how-americans-view-ai-and-its-impact-on-people-and-society/"
+               target="_blank" rel="noopener">
+              How Americans View AI and Its Impact on People and Society
+            </a>
+          </li>
+          <li>
+            Mustafa Suleyman, <em>The Coming Wave</em> —
+            course reading on technological spread, proliferation,
+            containment, and the difficulty of controlling advanced technology.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="footer">
+      Created for FIU IDH • Human Artifact Dev Blog
+    </div>
+
+  </main>
+
+  <script>
+    const steps = [
+      {
+        concept: "Proliferation",
+        title: "1. NEW",
+        lead: `
+          A technology begins as something unfamiliar. Early versions may
+          be expensive, experimental, or limited to researchers and specialists.
+        `,
+        example: `
+          <strong>Think about AI</strong>
+          Artificial intelligence existed long before today's chatbots,
+          but many people did not interact with it directly. AI could operate
+          behind the scenes in areas such as computing, recommendations,
+          search, and other systems.
+        `,
+        question: `
+          At this point, AI is something people can notice from the outside.
+          It has not yet become an everyday habit for most people.
+        `
+      },
+
+      {
+        concept: "Usefulness",
+        title: "2. USEFUL",
+        lead: `
+          Technologies spread when people discover that they can solve
+          problems or make existing tasks easier.
+        `,
+        example: `
+          <strong>AI becomes a tool</strong>
+          People can use AI to summarize information, generate ideas,
+          answer questions, analyze information, create images, or assist
+          with other tasks.
+        `,
+        question: `
+          The more problems a technology can help solve, the more reasons
+          people have to keep using it.
+        `
+      },
+
+      {
+        concept: "Accessibility",
+        title: "3. ACCESSIBLE",
+        lead: `
+          A technology cannot spread widely if only a small group of people
+          can access it. Lower barriers can move a technology from a
+          specialized tool toward a mass technology.
+        `,
+        example: `
+          <strong>A major shift</strong>
+          The release of consumer-facing AI chatbots made generative AI
+          accessible through an ordinary web browser or app rather than
+          requiring specialized technical knowledge.
+        `,
+        question: `
+          Accessibility changes who gets to experiment with a technology
+          and how quickly new uses can spread.
+        `
+      },
+
+      {
+        concept: "Convenience",
+        title: "4. CONVENIENT",
+        lead: `
+          Once a technology is accessible, convenience can encourage repeated
+          use. The easier a tool makes a task, the more likely people may be
+          to reach for it again.
+        `,
+        example: `
+          <strong>AI everywhere</strong>
+          AI is increasingly encountered across search, social media,
+          workplaces, creative tools, customer service, and other digital
+          environments.
+        `,
+        question: `
+          Convenience can change a technology from something we intentionally
+          choose to use into something we automatically reach for.
+        `
+      },
+
+      {
+        concept: "Naturalization",
+        title: "5. NORMALIZED",
+        lead: `
+          This is where technology can become “naturalized.”
+          Instead of thinking, “I am using a technology,” people may simply
+          think, “This is how I do this.”
+        `,
+        example: `
+          <strong>A current snapshot</strong>
+          In a 2026 Pew Research Center survey, 36% of U.S. adults said
+          they interact with AI at least several times a day.
+        `,
+        stats: `
+          <div class="stat">
+            <span class="stat-number">36%</span>
+            <span class="stat-label">interact with AI several times a day</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">30%</span>
+            <span class="stat-label">interact about daily or several times a week</span>
+          </div>
+        `,
+        question: `
+          When technology becomes routine, it can become harder to notice
+          how much our behavior has changed around it.
+        `
+      },
+
+      {
+        concept: "Technological Dilemma",
+        title: "6. DEPENDENCE?",
+        lead: `
+          This final stage is not a claim that everyone is dependent on AI.
+          Instead, it is a question worth asking as AI becomes more deeply
+          integrated into everyday life.
+        `,
+        example: `
+          <strong>The dilemma</strong>
+          AI can save time and expand what people can do. At the same time,
+          people may wonder what happens when they begin relying on it for
+          tasks they previously handled themselves.
+        `,
+        stats: `
+          <div class="stat">
+            <span class="stat-number">61%</span>
+            <span class="stat-label">of U.S. adults in a 2025 Pew survey said they wanted more control over how AI is used in their lives</span>
+          </div>
+        `,
+        question: `
+          The important question may not be “Is AI good or bad?”
+          It may be: “How much should we allow a technology to shape
+          the way we think, work, create, and connect?”
+        `
+      }
+    ];
+
+    let currentStep = 0;
+
+    const content = document.getElementById("stepContent");
+    const stepNumber = document.getElementById("stepNumber");
+    const progressBar = document.getElementById("progressBar");
+    const stageLabel = document.getElementById("stageLabel");
+    const stageConcept = document.getElementById("stageConcept");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const stepCard = document.getElementById("stepCard");
+
+    function renderStep() {
+      const step = steps[currentStep];
+
+      content.innerHTML = `
+        <div class="fade">
+          <div class="concept">${step.concept}</div>
+          <h2>${step.title}</h2>
+          <p class="lead">${step.lead}</p>
+
+          <div class="example">
+            ${step.example}
+          </div>
+
+          ${step.stats || ""}
+
+          <div class="question-box">
+            <strong>Why does this matter?</strong>
+            ${step.question}
+          </div>
+        </div>
+      `;
+
+      stepNumber.textContent = String(currentStep + 1).padStart(2, "0");
+      stageLabel.textContent = `Stage ${currentStep + 1} of ${steps.length}`;
+      stageConcept.textContent = step.concept;
+      progressBar.style.width =
+        `${((currentStep + 1) / steps.length) * 100}%`;
+
+      prevBtn.disabled = currentStep === 0;
+
+      if (currentStep === steps.length - 1) {
+        nextBtn.textContent = "Start Again ↻";
+      } else {
+        nextBtn.textContent = "Next →";
+      }
+    }
+
+    function changeStep(direction) {
+      if (direction === 1 && currentStep === steps.length - 1) {
+        currentStep = 0;
+      } else {
+        currentStep += direction;
+        currentStep = Math.max(0, Math.min(currentStep, steps.length - 1));
+      }
+
+      renderStep();
+
+      stepCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "ArrowRight") changeStep(1);
+      if (event.key === "ArrowLeft") changeStep(-1);
+    });
+
+    renderStep();
+  </script>
+</body>
+</html>
